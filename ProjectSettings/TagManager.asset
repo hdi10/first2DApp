@@ -7,6 +7,8 @@ TagManager:
   - ground
   - Coin
   - Text
+  - Spike
+  - Panel
   layers:
   - Default
   - TransparentFX

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 50;
-    public float jumph = 50;
+    public float speed = 5;
+    public float jumph = 5;
     private Rigidbody2D rb;
     public bool isGrounded = false;
 
@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
     private CoinManager m;
 
+    public GameObject panel;
 
     void Start()
     {
@@ -39,12 +40,20 @@ public class Player : MonoBehaviour
         if ( richtung < 0) 
         {
             transform.eulerAngles = rotation - new Vector3(0, 180, 0);
-            transform.Translate(Vector2.left * speed * richtung * Time.deltaTime);
+            transform.Translate(Vector2.right * speed * -richtung * Time.deltaTime);
         }
         if (richtung > 0)
         {
             transform.eulerAngles = rotation;
             transform.Translate(Vector2.right * speed * richtung * Time.deltaTime);
+        }
+
+        if(isGrounded == false)
+        {
+            anim.SetBool("IsJumping", true);
+        }else
+        {
+            anim.SetBool("IsJumping", false);
         }
 
 
@@ -68,6 +77,11 @@ public class Player : MonoBehaviour
         {
             m.Addmoney();
             Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "Spike") 
+        {
+            panel.SetActive(true);
+            Destroy(gameObject);
         }
     }
 
