@@ -70,6 +70,11 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Destroy(gameObject);
+            panel.SetActive(true);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -77,6 +82,7 @@ public class Player : MonoBehaviour
         {
             m.Addmoney();
             Destroy(other.gameObject);
+            
         }
         if (other.gameObject.tag == "Spike") 
         {
