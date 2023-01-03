@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 5;
-    public float jumph = 5;
+    public float speed = 50;
+    public float jumph = 50;
     private Rigidbody2D rb;
-    private bool isGrounded = false;
-    private Vector3 rotation;
-    // Start is called before the first frame update
+    public bool isGrounded = false;
 
+    private Vector3 rotation;
     private Animator anim;
+
+    private CoinManager m;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         rotation = transform.eulerAngles;
+        m = GameObject.FindGameObjectWithTag("Text").GetComponent<CoinManager>();
     }
 
     // Update is called once per frame
@@ -46,18 +49,25 @@ public class Player : MonoBehaviour
 
 
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector2.up * jumph, ForceMode2D.Impulse);
+            isGrounded = false;
         }
-
-        
     }
-    private void onCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "ground")
         {
             isGrounded = true;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Coin");
+        {
+            m.Addmoney();
+            Destroy(other.gameObject);
         }
     }
 
